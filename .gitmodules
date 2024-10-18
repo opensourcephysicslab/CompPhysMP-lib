@@ -1,0 +1,12 @@
+[submodule "lib/SH1107"]
+	path = lib/SH1107
+	url = https://github.com/peter-l5/SH1107.git
+[submodule "lib/framebuf2"]
+	path = lib/framebuf2
+	url = https://github.com/peter-l5/framebuf2.git
+[submodule "lib/BMP085_BMP180"]
+	path = lib/BMP085_BMP180
+	url = https://github.com/robert-hh/BMP085_BMP180.git
+[submodule "lib/ads1x15"]
+	path = lib/ads1x15
+	url = https://github.com/robert-hh/ads1x15.git
