@@ -21,14 +21,26 @@ To address the omission of some sensor features, other github repos that have "f
 
 Compared with the more unified writing styles of the drivers/modules, the included submodules were all written by different developers, each having their own stypes and conventions. It is like watching YouTube videos of physics lectures from different professors. Each one has their own symbols and styles so it could be disorienting for beginners. Reading the unified drivers/modules code before a "full feature" module is highly recommended. No support is provided for any submodules.
 
-## Convention:
+## Conventions:
 
 Any files or folders named Driver_[git_handle]_[sensor_model] is a unified and simplified driver/module. Example: Driver_LiuDr_LIS3DH.py
 
+Any unified and simplified driver/module MUST define an embedded example with if __name__=='_main__' conditional and assume the sensor is connected to an Adafruit KB2040 via the STEMMA-QT connector, with no other dependency. So if executed directly will provide a basic printout in console such as printing ax,ay,az for an accelerometer or temperature and pressure for a barometer.
+
 ## Installation:
+
+The Adafruit KB2040 is recommended. It is small, inexpensive, and has a large file storage, albeit not a RAM size. It also has a STEMMA-QT connector that can help students and instructors quickly set up an experiment without breadboard experiece [KB2040](https://www.adafruit.com/product/5302)
+
+You need to solder headers to your KB2040. The [primary guide](https://learn.adafruit.com/adafruit-kb2040/overview) has tutorial on how to.
+
+The Thonny IDE is highly recommended for editing your code and interacting with your board and sensors. [Thonny](https://thonny.org/)
+
+You can install MicroPython firmware to some of the dev board via Thonny. For KB2040, download the firmware for Adafruit Feather RP2040 (same firmware as KB2040) [here](https://micropython.org/download/ADAFRUIT_FEATHER_RP2040/). Hold the boot button, plug in to USB, wait for a moment and release the boot button. The board enumerates a flash drive. Drag+drop the firmware into the flash drive. The firmware will cause the flash drive to disappear. After about 30 seconds, you can press reset and go to Thonny to connect to it.
 
 Cloning this repo is highly recommended but for simplicity you can just download the repo in a .zip file. Copy lib folder to the root folder of your MicroPython board. Be mindful how many external submodules you are copying. The recommendation is to not copy anything in lib that doesn't start with Driver_[git_handle].
 
-Example code is in the top-level folder and can be copied to the root folder of your MicroPython board. Example: copy LIS3DH_SH1117_display.py to your board. All example code are written for Adafruit KB2040 board. It is small, inexpensive, and has a large file storage, albeit not a RAM size. [KB2040](https://www.adafruit.com/product/5302)
+Example code is in the top-level folder and can be copied to the root folder of your MicroPython board. Example: copy LIS3DH_SH1117_display.py to your board. Open the example and read the comments at the top to see what hardware you need and what library you need to copy to what destination.
 
-If you are using a different board, open the code and make necessary changes to the 'i2c=I2C(...)' line to match your board. Then run this code in Thonny. 
+All example code are written for Adafruit KB2040 board.
+
+If you are using a different board, open the code and make necessary changes to the 'i2c=I2C(...)' line to match your board. Then run this code in Thonny.
