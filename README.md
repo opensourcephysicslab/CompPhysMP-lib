@@ -19,13 +19,14 @@ To address the omission of some sensor features, other github repos that have "f
 
 ## A warning:
 
-Compared with the more unified writing styles of the drivers/modules, the included submodules were all written by different developers, each having their own stypes and conventions. It is like watching YouTube videos of physics lectures from different professors. Each one has their own symbols and styles so it could be disorienting for beginners. Reading the unified drivers/modules code before a "full feature" module is highly recommended. No support is provided for any submodules.
+Compared with the more unified writing styles of the drivers/modules, the included submodules were all written by different developers, each having their own stypes and conventions. It is like watching YouTube videos of physics lectures from different professors. Each one has their own symbols and styles so it could be disorienting for beginners. Reading the unified drivers/modules code before a "full feature" module is highly recommended. For support on any submodules, please contact the developers of those submodules.
 
 ## Conventions:
 
 Any files or folders named Driver_[git_handle]_[sensor_model] is a unified and simplified driver/module. Example: Driver_LiuDr_LIS3DH.py
 
-Any unified and simplified driver/module MUST define an embedded example with if __name__=='_main__' conditional and assume the sensor is connected to an Adafruit KB2040 via the STEMMA-QT connector, with no other dependency. So if executed directly will provide a basic printout in console such as printing ax,ay,az for an accelerometer or temperature and pressure for a barometer.
+Any unified and simplified driver/module MUST define an embedded example with 
+`if __name__=='_main__'` conditional and assume the sensor is connected to an Adafruit KB2040 via the STEMMA-QT connector, with no other dependency. So if executed directly will provide a basic printout in console such as printing ax,ay,az for an accelerometer or temperature and pressure for a barometer.
 
 ## Installation:
 
@@ -44,3 +45,10 @@ Example code is in the top-level folder and can be copied to the root folder of 
 All example code are written for Adafruit KB2040 board.
 
 If you are using a different board, open the code and make necessary changes to the 'i2c=I2C(...)' line to match your board. Then run this code in Thonny.
+
+## Submodules not included
+
+Some git projects that include full-feature drivers/modules are not included as submodules in this repo because of various reasons. One of them would be the repo contains more than just a MicroPython sensor driver/module but also other things not related to our efforts, such as custom firmware images for specific boards, circuit board designs etc. When such inclusion becomes too confusing to include, the repo's link will be included below with some explanation on where the driver/module is.
+
+[tinypico](https://github.com/tinypico/tinypico-micropython) includes an LIS3DH MicroPython driver that is tested to work, with extended features.
+
