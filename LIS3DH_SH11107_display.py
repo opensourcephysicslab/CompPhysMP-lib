@@ -38,7 +38,10 @@ try:
         ret=lis.read_g() # ret is a tuple (ax,ay,az) so ret[0]=ax, ret[1]=ay, and ret[2]=az.
         if (ret[0]**2+ret[1]**2+ret[2]**2)**.5<0.25: # In case the set up is dropped accidentally (magnitude of total acceleration is small), display a surprised smily :o on the OLED.
             display.fill(1) # Fill with color
-            display.large_text(':o',32,8,4,0) # (text,x,y,font size, color)
+            display.large_text('Free!',0,0,3,0) # (text,x,y,font size, color)
+            display.large_text('!Fall',0,32,3,0)
+            display.show()
+            sleep(2) # Otherwise people can't see the printout!
         else:
             if ret[2]!=0:
                 tilt_deg=atan(ret[0]/ret[2])*57.3 # Calculate tilt angle only if az is not zero.
