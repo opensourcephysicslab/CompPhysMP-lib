@@ -23,7 +23,7 @@ To display on the OLED again, do display.poweron(), do some display.text() and t
 Remember not to keep the display on unnecessarily to prevent burn-ins :)
 '''
 from machine import I2C, Pin
-from math import atan
+from math import atan2
 from time import sleep
 from Driver_LiuDr_LIS3DH import LIS3DH
 import sh1107
@@ -43,11 +43,8 @@ try:
             display.show()
             sleep(2) # Otherwise people can't see the printout!
         else:
-            if ret[2]!=0:
-                tilt_deg=atan(ret[0]/ret[2])*57.3 # Calculate tilt angle only if az is not zero.
-            else:
-                tilt_deg=90.0 # Vertical i.e. az=0. Do this to avoid division by zero inside atan!
-            outStr='ax={:.2f}g\tay={:.2f}g\taz={:.2f}g\ttilt={:.1f}deg'.format(ret[0],ret[1],ret[2],-tilt_deg)
+            tilt_deg=atan2(ret[0],ret[2])*57.3 # Calculate tilt angle
+            outStr=f'ax={ret[0]:5.2f}g ay={ret[1]:5.2f}g az={ret[2]:5.2f}g tilt={-tilt_deg:6.1f}deg'
             print(outStr)
             display.fill(0) # Effectively this erases the display's existing content
             #display.text('Accelerometer', 0, 0, 1) # These commented lines print full details on the OLED for those who want everything on screen. text(text,x,y,color)
