@@ -1,7 +1,8 @@
 """
-Dr. John Liu 2024-10-02
+Dr. John Liu 2024-11-13
 LIS3DH 3-axis accelerometer driver for MicroPython
 Fixed 400Hz +-2g mode
+LIS3DH(i2c) uses default address while LIS3DH(i2c,False) uses alternate address
 To test your module, run this module by itself (such as in Thonny).
 It will print out its measurements, with default 7-bit address of 0x18.
 The sample code assumes sda=12 scl=13 on an Adafruit KB2040 board STEMMA-QT connector. Make appropriate changes to the test code if you are using a different system or pins.
@@ -26,9 +27,10 @@ _LSB_per_g_2g=16380 # LSB per acceleration in g in +-2g range and high resolutio
 _LSB_per_mss_2g=1669.7 # LSB per acceleration in m/s/s in +-2g range and high resolution
 class LIS3DH:
     defaultAddr=0x18 # default 7-bit address (pull SDO/SA0 to GND)
-    def __init__(self,i2c,addr=defaultAddr):
+    alternateAddr=0x19 # alternate 7-bit address (pull SDO/SA0 to VCC or leave unconnected)
+    def __init__(self,i2c,useDefaultAddr=True):
         self.i2c=i2c
-        self.addr=addr
+        self.addr=LIS3DH.defaultAddr if useDefaultAddr else LIS3DH.alternateAddr
         self.i2c.writeto_mem(self.addr, _REG5_ADDR, bytearray([_FIFO_EN])) # Enable FIFO
         self.i2c.writeto_mem(self.addr, _REG1_ADDR, bytearray([_400Hz_xyz])) # Enable x,y,z and set 400Hz
         self.i2c.writeto_mem(self.addr, _REG4_ADDR, bytearray([_BDU_2g_HR])) # Enable block data update, +-2g, and high resolution
