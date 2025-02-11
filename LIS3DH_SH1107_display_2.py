@@ -40,8 +40,8 @@ sleep(0.01)
 lis=LIS3DH(i2c)
 display = sh1107.SH1107_I2C(128, 64, i2c, address=60, rotate=0)
 display.poweron()
-l=20
-w=12
+l=20	# Half length of the rectangle
+w=12	# Half width of the rectangle
 # Read-calculate-display loop
 try:
     while(True):
