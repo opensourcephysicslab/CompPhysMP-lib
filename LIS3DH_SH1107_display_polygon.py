@@ -1,9 +1,17 @@
 '''
 Dr. John Liu
 This example code reads x,y,z acceleration values from LIS3DH and draws a polygon on an SH1107 128*64 OLED that are always level using the 2D coordinate rotation matrix.
-2025-02-11 Original code created. Define the polygon in points, center in pt_ctr, and scale in scale. The polygon will be translated to pt_ctr and scaled.
+2025-02-11 Original code created. Define the polygon in points, its center in pt_ctr, and scale in scale. The polygon will be translated to pt_ctr and scaled.
 The screen has its origin at the top left corner and y-axis pointing down. The x-axis points to the right. So you should create your polygon with the same coordinate system.
 It is best to either trace a polygon on graphing paper with the same coordinate system or do it digitally however you like. 
+
+3 polygon examples are given:
+#	a centered rectangle,
+#	an 8-pt outline of the state of Minnesota with St. Cloud as the center, and
+#	an SCSU Husky outline with an appropriate center
+
+10-second demo:
+https://youtu.be/bdLr1pY41OM
 
 Parts list:
 Breadboard:				https://www.adafruit.com/product/239
@@ -39,6 +47,12 @@ lis=LIS3DH(i2c)
 display = sh1107.SH1107_I2C(128, 64, i2c, address=60, rotate=0)
 display.poweron()
 # points= ((20,12),(20,-12),(-20,-12),(-20,12))	# These are the vertices of a rectangle
+# pt_ctr=(0,0)
+# scale=1
+
+# points=((0,14),(1.3,13.3),(2.6,10.6),(4,9.5),(4.6,6.9),(4,5),(3.6,2.5),(2,.2),(1,2),(-1,2),(-2,.2),(-3.6,2.5),(-4,5),(-4.6,6.9),(-4,9.5),(-2.6,10.6),(-1.3,13.3))	# The outline of SCSU Husky
+# pt_ctr=(0,7)
+# scale=6	# Defines a scale
 points=((8,15),(13.5,15),(12,12.8),(11.7,11.8),(12.3,10.3),(15,8),(9.3,6.6),(7,6.7))	# This is a 8-vertex trace of the state of Minnesota
 pt_ctr=(10.3,11.8)	# Defines a center to translate
 scale=6	# Defines a scale
