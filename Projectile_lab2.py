@@ -1,17 +1,20 @@
-# This script shows how to sense a digital HIGH/LOW sensor and time two events from two digital sensors with 0.1ms accuracy.
+# This script predicts the horizontal distance travelled by a projectile with the following information.
+# h : height of the end of the barrel in meters
+# th: angle of the launcher in radians.
+# v0: projectile speed, calculated from photo gates.
+# Setup:
 # Two PASCO photo gates are mounted in front of a PASCO projectile launcher. PASCO sells an adapter for this setup.
-# The script times the consecutive triggering of the two gates, while both gates are connected to and sensed by a PASCO photo gate smart timer.
-# Wires were soldered to both photo gate signals and the ground on the back of the timer's circuit board and connected to an Adafruit KB2040 pins 0, 1, and GND.
-# When PASCO photo gate smart timer is set to "time:two gates" mode and armed, both gates are turned on and read HIGH.
+# The script times the consecutive triggering of the two gates.
+# Both photo gate signals are connected to an Adafruit KB2040 pins 0 and 1.
+# When a photo gate is powered, the output is HIGH. When the gate is blocked, it reads LOW.
 # When the ball passes through a gate, that gate momentarily outputs LOW, until the ball clears the gate, when the gate will return to HIGH.
-# I think the timer turns off both gates after it senses the second gate goes LOW, possibly to conserve battery. I saw an exponential decay of gate 2's output.
 # To time the duration of the projectile traveling through the gates, first save the micrsecond tick to time1 when you sense a falling edge (HIGH->LOW) on gate 1 (ball passing gate 1).
 # Then save the microsecond tick to time2 when you sense a falling edge (HIGH->LOW) on gate 2 (ball passing gate 2).
-# Once you have both time1 and time2 values, subtract time1 from time2 to get the duration of the ball moving between the gates.#
+# Once you have both time1 and time2 values, subtract time1 from time2 to get the duration of the ball moving between the gates.
 # The distance between the gates is 10 cm based on my measurement.
-# With the duration, calculate the speed of the ball: 10cm/duration
+# With the duration, calculate the speed of the ball, and proceed to use this speed and other information and predict the x distance.
 # To restart the measurement, restart the script, or wrap the script with a while loop and set time2 to 0 after printing.
-
+from math import sin, cos
 from machine import Pin
 import time
 CH1=Pin(0,Pin.IN)
@@ -50,6 +53,16 @@ while CH2.value():	# Wait for CH2 to go low
     pass
 time2=time.ticks_us()	# Get time tick once CH2 goes low
 '''
-t_ms=(time2-time1)/1000
-d_m=0.1	# Distance between gates
-print("Time(ms):",t_ms, "Speed(m/s):",d_m/t_ms*1000)	# Print results.
+g=9.8	# m/s/s
+t=(time2-time1)/1000000
+d=0.1	# Distance between gates
+v0=d/t*1000
+h=1.17
+th=30/57.3
+vx=v0*cos(th)
+vy=v0*sin(th)
+#y=0=h+vy*tf-1/2*g*tf**2
+tf=1/(-g)*(-vy-(vy**2+2*g*h)**.5)
+x=tf*vx
+print("Time(s):",t, "Speed(m/s):",v0)	# Print results.
+print("Predicted distance(m):",x)	# Print prediction.
