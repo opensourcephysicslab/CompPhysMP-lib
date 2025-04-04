@@ -1,12 +1,17 @@
-# This script predicts the horizontal distance travelled by a projectile with the following required information. It is trimmed down from the full script.
+# This script predicts the horizontal distance travelled by a projectile with the following required information.
 # h : height of the end of the barrel in meters
-# th: angle of the launcher in radians.
-# The following is obtained from the photo gates:
-# v0: projectile speed
+# v0: projectile speed (from previous measurements)
+#
+# Measured by the board:
+# th: angle of the launcher in radians measured by an accelerometer on the board
+# v0: projectile speed measured at the photogates
+# 
 # Setup:
 # Two PASCO photo gates are mounted in front of a PASCO projectile launcher. PASCO sells an adapter for this setup.
 # The script times the consecutive triggering of the two gates.
 # Both photo gate signals are connected to an Adafruit KB2040 pins 0 and 1.
+# An accelerometer is connected to the board to automate the angle measurements.
+# The board is mounted on top of both gates so it is tilted at the same angle as the launcher.
 # When a photo gate is powered, the output is HIGH. When the gate is blocked, it reads LOW.
 # When the ball passes through a gate, that gate momentarily outputs LOW, until the ball clears the gate, when the gate will return to HIGH.
 # To time the duration of the projectile traveling through the gates, first save the micrsecond tick to time1 when you sense a falling edge (HIGH->LOW) on gate 1 (ball passing gate 1).
@@ -20,22 +25,50 @@
 g=9.8	# m/s/s
 d=0.1	# m Distance between photogates
 h=1.17  # m Launch height
-th=30/57.3  # rad Angle of the launcher
+v0=4.3  # m/s Launch speed from previous measurements
+
 # Initialize variables
 time1=0
 time2=0
 
 # Import generic Python/MicroPython modules
-from math import sin, cos
+from math import sin, cos, atan2
 from time import sleep,ticks_us
 # Import MicroPython-only modules
-from machine import Pin
+from machine import Pin, I2C
 # Import compphysmp-only modules
+from Driver_LiuDr_LIS3DH import LIS3DH
 
 # Initialize hardware
 CH1=Pin(0,Pin.IN)
 CH2=Pin(1,Pin.IN)
+i2c=I2C(id=0,sda=Pin(12),scl=Pin(13),freq=400000)
+sleep(0.01)
+lis=LIS3DH(i2c)
 
+# Finding the average acceleration from an accelerometer that has .read_g() method. Returns average components in g. By default, average 10 readings with 0.1s delay. 
+def acc_avg(acc,n=10,delay_s=0.1):
+    ax_sum=0;ay_sum=0;az_sum=0
+    for i in range(n):
+        ax,ay,az=acc.read_g() # ret is a tuple (ax,ay,az).
+        ax_sum+=ax
+        ay_sum+=ay
+        az_sum+=az
+        sleep(delay_s)
+    return ax_sum/n,ay_sum/n,az_sum/n
+
+# Making a prediction based on known information including launch height, speed (from previous measurements), and angle (accelerometer readings)
+print("Steady the launcher! Angle measurements in 3 seconds...")
+sleep(3)
+ax,ay,az=acc_avg(lis)
+th=atan2(ax,az)
+vx=v0*cos(th)
+vy=v0*sin(th)
+#y=0=h+vy*tf-1/2*g*tf**2
+tf=1/(-g)*(-vy-(vy**2+2*g*h)**.5)
+x=tf*vx
+print("Angle:", th*57.3, "Height:",h)
+print("Predicted distance(m):",x)	# Print prediction.print("Launch when ready...")
 print("Launch when ready...")
 
 # Two methods to sense the photogates are included.
@@ -78,6 +111,6 @@ vy=v0*sin(th)
 #y=0=h+vy*tf-1/2*g*tf**2
 tf=1/(-g)*(-vy-(vy**2+2*g*h)**.5)
 x=tf*vx
-print("Angle:",th*57.3,"Height:",h)
+print("Angle:", th*57.3, "Height:",h)
 print("Time:",t,"Speed:",v0)
-print("Predicted distance(m):",x)	# Print prediction.
+print("Updated predicted distance(m):",x)	# Print prediction.

@@ -1,8 +1,4 @@
-# This script predicts the horizontal distance travelled by a projectile with the following required information. It is trimmed down from the full script.
-# h : height of the end of the barrel in meters
-# th: angle of the launcher in radians.
-# The following is obtained from the photo gates:
-# v0: projectile speed
+# This script calculates the speed of a projectile using two photogates. It is a trimmed-down version of the script that also predicts the horizontal distance.
 # Setup:
 # Two PASCO photo gates are mounted in front of a PASCO projectile launcher. PASCO sells an adapter for this setup.
 # The script times the consecutive triggering of the two gates.
@@ -17,16 +13,13 @@
 # To restart the measurement, restart the script, or wrap the script with a while loop and set time2 to 0 after printing.
 
 # Define constants
-g=9.8	# m/s/s
 d=0.1	# m Distance between photogates
-h=1.17  # m Launch height
-th=30/57.3  # rad Angle of the launcher
+
 # Initialize variables
 time1=0
 time2=0
 
 # Import generic Python/MicroPython modules
-from math import sin, cos
 from time import sleep,ticks_us
 # Import MicroPython-only modules
 from machine import Pin
@@ -73,11 +66,4 @@ time2=ticks_us()	# Get time tick once CH2 goes low
 # Making an updated predictions based on the actual launching speed just measured.
 t=(time2-time1)/1000000
 v0=d/t
-vx=v0*cos(th)
-vy=v0*sin(th)
-#y=0=h+vy*tf-1/2*g*tf**2
-tf=1/(-g)*(-vy-(vy**2+2*g*h)**.5)
-x=tf*vx
-print("Angle:",th*57.3,"Height:",h)
 print("Time:",t,"Speed:",v0)
-print("Predicted distance(m):",x)	# Print prediction.
