@@ -6,7 +6,7 @@
 # Setup:
 # Two PASCO photo gates are mounted in front of a PASCO projectile launcher. PASCO sells an adapter for this setup.
 # The script times the consecutive triggering of the two gates.
-# Both photo gate signals are connected to an Adafruit KB2040 pins 0 and 1.
+# Both photo gate signals are connected to an Adafruit KB2040 pins 28(A2) and 29(A3).
 # When a photo gate is powered, the output is HIGH. When the gate is blocked, it reads LOW.
 # When the ball passes through a gate, that gate momentarily outputs LOW, until the ball clears the gate, when the gate will return to HIGH.
 # To time the duration of the projectile traveling through the gates, first save the micrsecond tick to time1 when you sense a falling edge (HIGH->LOW) on gate 1 (ball passing gate 1).
@@ -33,8 +33,8 @@ from machine import Pin
 # Import compphysmp-only modules
 
 # Initialize hardware
-CH1=Pin(0,Pin.IN)
-CH2=Pin(1,Pin.IN)
+CH1=Pin(28,Pin.IN)
+CH2=Pin(29,Pin.IN)
 
 print("Launch when ready...")
 

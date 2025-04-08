@@ -9,7 +9,7 @@
 # Setup:
 # Two PASCO photo gates are mounted in front of a PASCO projectile launcher. PASCO sells an adapter for this setup.
 # The script times the consecutive triggering of the two gates.
-# Both photo gate signals are connected to an Adafruit KB2040 pins 0 and 1.
+# Both photo gate signals are connected to an Adafruit KB2040 pins 28(A2) and 29(A3).
 # An accelerometer is connected to the board to automate the angle measurements.
 # The board is mounted on top of both gates so it is tilted at the same angle as the launcher.
 # When a photo gate is powered, the output is HIGH. When the gate is blocked, it reads LOW.
@@ -40,8 +40,8 @@ from machine import Pin, I2C
 from Driver_LiuDr_LIS3DH import LIS3DH
 
 # Initialize hardware
-CH1=Pin(0,Pin.IN)
-CH2=Pin(1,Pin.IN)
+CH1=Pin(28,Pin.IN)
+CH2=Pin(29,Pin.IN)
 i2c=I2C(id=0,sda=Pin(12),scl=Pin(13),freq=400000)
 sleep(0.01)
 lis=LIS3DH(i2c)
