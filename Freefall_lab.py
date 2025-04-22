@@ -16,7 +16,7 @@
 # This lab requires the dual-AA battery holder.
 
 # Define constants
-freq_LED=1000	# Hz
+freq_LED=100	# Hz
 duty_u16=1024	# duty has the range of 0-65535 so 1024/65536=1.56% 
 
 # Initialize variables
