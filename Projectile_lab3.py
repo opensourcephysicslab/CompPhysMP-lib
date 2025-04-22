@@ -61,7 +61,7 @@ def acc_avg(acc,n=10,delay_s=0.1):
 print("Steady the launcher! Angle measurements in 3 seconds...")
 sleep(3)
 ax,ay,az=acc_avg(lis)
-th=atan2(ax,az)
+th=atan2(-ax,az)
 vx=v0*cos(th)
 vy=v0*sin(th)
 #y=0=h+vy*tf-1/2*g*tf**2
@@ -72,39 +72,39 @@ print("Predicted distance(m):",x)	# Print prediction.print("Launch when ready...
 print("Launch when ready...")
 
 # Two methods to sense the photogates are included.
-# Method 1: use interrupts. Each pin has its own interrupt routine to save the tick and then disable the interrupt to prevent overwriting the tick.
+# Method 1: use a while loop to wait until CH1 turns LOW, save time1. Then wait until CH2 turns LOW and save time2.
+# Method 2: use interrupts. Each pin has its own interrupt routine to save the tick and then disable the interrupt to prevent overwriting the tick.
 # You can disable an interrupt by passing None to it: CH2.irq(None)
-# Method 2: use a while loop to wait until CH1 turns LOW, save time1. Then wait until CH2 turns LOW and save time2.
 
-# Method 1: Using two interrupt service routines. This method consistently reports 0.3ms shorter time periods than PASCO timer.
-@micropython.native
-def CH1_h(pin):
-    global time1
-    if not time2:
-        time1=ticks_us()
-    
-@micropython.native
-def CH2_h(pin):
-    global time2
-    if not time2:
-        time2=ticks_us()
+# Method 1: While loop. This method has the same average value as PASCO timer, with 0.06ms of variations.
 
-CH1.irq(CH1_h, Pin.IRQ_FALLING, hard=True)
-CH2.irq(CH2_h, Pin.IRQ_FALLING, hard=True)
-while not time2:	# If time2 reads non-zero, time2 has been obtained. Time to print the result.
-    sleep(0.1)
-
-# Method 2: While loop. This method has the same average value as PASCO timer, with 0.06ms of variations.
-'''
 while CH1.value():	# Wait for CH1 to go low
     pass
 time1=ticks_us()	# Get time tick once CH1 goes low
 while CH2.value():	# Wait for CH2 to go low
     pass
 time2=ticks_us()	# Get time tick once CH2 goes low
-'''
+
+# Method 2: Using two interrupt service routines. This method consistently reports 0.3ms shorter time periods than PASCO timer.
+# @micropython.native
+# def CH1_h(pin):
+#     global time1
+#     if not time2:
+#         time1=ticks_us()
+#     
+# @micropython.native
+# def CH2_h(pin):
+#     global time2
+#     if not time2:
+#         time2=ticks_us()
+# 
+# CH1.irq(CH1_h, Pin.IRQ_FALLING, hard=True)
+# CH2.irq(CH2_h, Pin.IRQ_FALLING, hard=True)
+# while not time2:	# If time2 reads non-zero, time2 has been obtained. Time to print the result.
+#     sleep(0.1)
+
 # Making an updated predictions based on the actual launching speed just measured.
-t=(time2-time1)/1000000
+t=(time2-time1)/1000000	# Convert us to s
 v0=d/t
 vx=v0*cos(th)
 vy=v0*sin(th)
