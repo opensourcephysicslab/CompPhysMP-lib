@@ -3,7 +3,7 @@
 
 # Define constants
 d=0.1	# m Distance between photogates
-
+trial_duration_us=15e6	# Duration
 # Initialize variables
 time1=0
 time2=0
@@ -24,15 +24,23 @@ CH1_old=CH1.value()
 CH2_old=CH2.value()
 CH1_new=CH1_old
 CH2_new=CH2_old
-
+results=""
+start=0
 while True:
     CH1_new=CH1.value()	# Always update new values at the beginning of each iteration
     CH2_new=CH2.value()
     if (not CH1_new) and CH1_old:
         time1=ticks_us()
-        print("1:",time1, sep='\t')
+        results+="1:\t%d\n" %time1
+        if start==0:
+            start=time1
     if (not CH2_new) and CH2_old:
         time2=ticks_us()
-        print("2:",time2,sep='\t')
+        results+="2:\t%d\n" %time2
+        if start==0:
+            start=time2
     CH1_old=CH1_new	# Always update old values with the new values at the end of each iteration
     CH2_old=CH2_new
+    if start and ticks_us()-start>trial_duration_us:
+        break
+print(results)
