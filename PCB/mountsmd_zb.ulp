@@ -1,0 +1,129 @@
+#usage "<b>Data generation for mounting machines</b>\n"
+       "<p>"
+       "Generates files for smds on the top and bottom layers "
+       "wich can be used with mounting machines. "
+       "The x and y coordinates (units: mm) of the SMD elements are calculated "
+       "as mean of maximum and mimimum value of the smds origin points. "
+       "The calculated value does not necessarily fit with the origin "
+       "point of the part in the layout."
+       "All SMD elements populated in currently set assembly variant are considered."
+       "<p>"
+       "The syntax of the output data looks like this:"
+       "<p>"
+       "<tt>name x-coord y-coord rotation value package</tt>"
+       "<p>"
+       "<author>Author: support@cadsoft.de</author>"
+
+// THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
+// Dr. John Liu wrote for zb pnp 2022-09-15
+// The dialog asks for a part you name as the origin of the board. Once entered, the center of this part is treated as origin (x0T,y0T) and all other parts will have (x0T,y0T) subtracted from their (x,y) coordinates.
+if (board) board(B) {
+  // Get origin name
+  //dlgMessageBox(";Using FID1 as origin?", "&Yes", "&No");
+  string originName = "FID1";
+  dlgDialog("Name") {
+    dlgLabel("Which part is used as T origin?");
+    dlgStringEdit(originName);
+	dlgPushButton("+OK") dlgAccept();
+  };
+  // Get filename
+  string fileName = dlgFileSave("Save File", filesetext(B.name, ".mnt"), "*.mnt");
+  if (fileName == "") exit(0);
+  output(fileName) {
+    printf("Designator\tFootprint\tMid X\tMid Y\tRef X\tRef Y\tPad X\tPad Y\tLayer\tRotation\tComment\n");
+	real x0T=0,y0T=0;
+    B.elements(E) if (E.populate) {
+
+      int wasSmd,
+          xmax = -2147483648,
+          xmin = 2147483647,
+          ymax = xmax,
+          ymin = xmin;
+
+      wasSmd = 0;
+
+
+      if (E.name == originName) // This part is treated as the origin.
+      {
+        E.package.contacts(C) {
+          if (C.smd && C.smd.layer == 1) {
+            wasSmd = 1;
+
+            if (C.x > xmax) xmax = C.x;
+            if (C.y > ymax) ymax = C.y;
+            if (C.x < xmin) xmin = C.x;
+            if (C.y < ymin) ymin = C.y;
+          }
+        }
+		x0T=u2mm((xmin + xmax) / 2);
+		y0T=u2mm((ymin + ymax) / 2);
+      }
+    }
+
+    B.elements(E) if (E.populate) {
+
+      int wasSmd,
+          xmax = -2147483648,
+          xmin = 2147483647,
+          ymax = xmax,
+          ymin = xmin;
+
+      wasSmd = 0;
+
+      E.package.contacts(C) {
+        if (C.smd && C.smd.layer == 1) {
+          wasSmd = 1;
+
+          if (C.x > xmax) xmax = C.x;
+          if (C.y > ymax) ymax = C.y;
+          if (C.x < xmin) xmin = C.x;
+          if (C.y < ymin) ymin = C.y;
+        }
+      }
+
+      if (wasSmd)
+        printf("%s\t%s\t%5.2f\t%5.2f\tT\t%3.0f\t%s\n",
+               E.name, E.package.name, u2mm((xmin + xmax) / 2)-x0T, u2mm((ymin + ymax) / 2)-y0T,
+               E.angle, E.value);
+    }
+  }
+
+  // Get filename
+  fileName = dlgFileSave("Save File", filesetext(B.name, ".mnb"), "*.mnb");
+  if (fileName == "") exit(0);
+
+  output(fileName) {
+
+    B.elements(E) if (E.populate) {
+
+      int wasSmd,
+          xmax = -2147483648,
+          xmin = 2147483647,
+          ymax = xmax,
+          ymin = xmin;
+
+      wasSmd = 0;
+
+      E.package.contacts(C) {
+        if (C.smd && C.smd.layer == 16) {
+          wasSmd = 1;
+
+          if (C.x > xmax) xmax = C.x;
+          if (C.y > ymax) ymax = C.y;
+          if (C.x < xmin) xmin = C.x;
+          if (C.y < ymin) ymin = C.y;
+        }
+      }
+
+      if (wasSmd)
+        printf("%s\t%s\t%5.2f\t%5.2f\tT\t%3.0f\t%s\n",
+               E.name, E.package.name, u2mm((xmin + xmax) / 2), u2mm((ymin + ymax) / 2),
+               E.angle, E.value);
+    }
+  }
+}
+
+else {
+  dlgMessageBox("\n    Start this ULP in a Board    \n");
+  exit (0);
+}
