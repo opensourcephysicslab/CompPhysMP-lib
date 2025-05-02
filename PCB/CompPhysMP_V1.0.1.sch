@@ -8747,9 +8747,9 @@ Source: &lt;a href="http://www.kycon.com/Pub_Eng_Draw/STX-3000.pdf"&gt; Datashee
 </classes>
 <parts>
 <part name="FRAME1" library="frames" deviceset="FRAME_B_L" device=""/>
-<part name="FD1" library="Fiducial" deviceset="FID" device="_50MIL" value="FID_50MIL"/>
-<part name="FD2" library="Fiducial" deviceset="FID" device="_50MIL" value="FID_50MIL"/>
-<part name="FD3" library="Fiducial" deviceset="FID" device="_50MIL" value="FID_50MIL"/>
+<part name="FID1" library="Fiducial" deviceset="FID" device="_50MIL" value="FID_50MIL"/>
+<part name="FID2" library="Fiducial" deviceset="FID" device="_50MIL" value="FID_50MIL"/>
+<part name="FID3" library="Fiducial" deviceset="FID" device="_50MIL" value="FID_50MIL"/>
 <part name="JP4" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X13" device="" package3d_urn="urn:adsk.eagle:package:22421/2"/>
 <part name="JP6" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X13" device="" package3d_urn="urn:adsk.eagle:package:22421/2"/>
 <part name="JP1" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X12" device="" package3d_urn="urn:adsk.eagle:package:22487/2"/>
@@ -8759,20 +8759,20 @@ Source: &lt;a href="http://www.kycon.com/Pub_Eng_Draw/STX-3000.pdf"&gt; Datashee
 <part name="JP7" library="microbuilder" deviceset="HEADER-1X6" device="70MIL"/>
 <part name="JP8" library="microbuilder" deviceset="HEADER-1X6" device="70MIL"/>
 <part name="Q1" library="transistor-small-signal" library_urn="urn:adsk.eagle:library:401" deviceset="BSS123" device="" package3d_urn="urn:adsk.eagle:package:28738/2"/>
-<part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1000"/>
-<part name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1000"/>
+<part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1K"/>
+<part name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1K"/>
 <part name="Q2" library="transistor-small-signal" library_urn="urn:adsk.eagle:library:401" deviceset="BSS123" device="" package3d_urn="urn:adsk.eagle:package:28738/2"/>
-<part name="R3" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1000"/>
-<part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1000"/>
+<part name="R3" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1K"/>
+<part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="1K"/>
 <part name="J1" library="SamacSys_Parts" deviceset="STX-3000" device=""/>
 <part name="J2" library="SamacSys_Parts" deviceset="STX-3000" device=""/>
 <part name="LED1" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="5MM" package3d_urn="urn:adsk.eagle:package:15799/2"/>
 <part name="Q3" library="transistor-small-signal" library_urn="urn:adsk.eagle:library:401" deviceset="BSS123" device="" package3d_urn="urn:adsk.eagle:package:28738/2"/>
-<part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="150"/>
+<part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="63"/>
 <part name="CONN1" library="microbuilder" deviceset="STEMMA_I2C" device="_QT"/>
 <part name="U$29" library="microbuilder" deviceset="GND" device=""/>
 <part name="Q4" library="transistor-small-signal" library_urn="urn:adsk.eagle:library:401" deviceset="BSS123" device="" package3d_urn="urn:adsk.eagle:package:28738/2"/>
-<part name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="150"/>
+<part name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="120"/>
 <part name="X1" library="ICs-new" deviceset="DIPMICRO-BUZZER" device="6P5_7P5"/>
 <part name="JP9" library="ICs-new" deviceset="PINHD-1X3" device="SMALL-PADS"/>
 <part name="JP10" library="ICs-new" deviceset="PINHD-1X3" device="SMALL-PADS"/>
@@ -8796,13 +8796,13 @@ IO26:A0</text>
 <attribute name="SHEET" x="411.48" y="1.27" size="2.54" layer="94"/>
 <attribute name="DRAWING_NAME" x="342.9" y="19.05" size="2.54" layer="94"/>
 </instance>
-<instance part="FD1" gate="G$2" x="10.16" y="10.16" smashed="yes">
+<instance part="FID1" gate="G$2" x="10.16" y="10.16" smashed="yes">
 <attribute name="NAME" x="10.16" y="11.43" size="1.016" layer="95" font="vector" ratio="12"/>
 </instance>
-<instance part="FD2" gate="G$2" x="20.32" y="10.16" smashed="yes">
+<instance part="FID2" gate="G$2" x="20.32" y="10.16" smashed="yes">
 <attribute name="NAME" x="20.32" y="11.43" size="1.016" layer="95" font="vector" ratio="12"/>
 </instance>
-<instance part="FD3" gate="G$2" x="30.48" y="10.16" smashed="yes">
+<instance part="FID3" gate="G$2" x="30.48" y="10.16" smashed="yes">
 <attribute name="NAME" x="30.48" y="11.43" size="1.016" layer="95" font="vector" ratio="12"/>
 </instance>
 <instance part="JP4" gate="A" x="132.08" y="152.4" smashed="yes" rot="R90">
