@@ -41,7 +41,8 @@ from Driver_LiuDr_LIS3DH import LIS3DH
 import sh1107
 
 # Initialize hardware
-i2c=I2C(id=0,sda=Pin(12),scl=Pin(13),freq=400000)
+# i2c=I2C(id=0,sda=Pin(12),scl=Pin(13),freq=400000) # Using STEMMA QT connector on KB2040
+i2c=I2C(id=1,sda=Pin(2),scl=Pin(3),freq=400000) # Using CompPhysMP board or STEMMA QT connector on RP2040
 sleep(0.01)
 lis=LIS3DH(i2c)
 display = sh1107.SH1107_I2C(128, 64, i2c, address=60, rotate=0)
