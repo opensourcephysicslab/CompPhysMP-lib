@@ -1,4 +1,4 @@
-# This script calculates the speed of a projectile using two photogates. It is a trimmed-down version of the script that also predicts the horizontal distance.
+# This script calculates the speed of a projectile using two photogates. It is a trimmed-down version of the script that measures launch speed and predicts the horizontal distance.
 # Setup:
 # Two PASCO photo gates are mounted in front of a PASCO projectile launcher. PASCO sells an adapter for this setup.
 # The script times the consecutive triggering of the two gates.
@@ -20,7 +20,7 @@ time1=0
 time2=0
 
 # Import generic Python/MicroPython modules
-from time import sleep,ticks_us
+from time import ticks_us
 # Import MicroPython-only modules
 from machine import Pin
 # Import compphysmp-only modules
@@ -31,12 +31,8 @@ CH2=Pin(29,Pin.IN)
 
 print("Launch when ready...")
 
-# Two methods to sense the photogates are included.
+# Two methods to sense the photogates are included in the full script. Here, only method 1 using a while loop is included.
 # Method 1: use a while loop to wait until CH1 turns LOW, save time1. Then wait until CH2 turns LOW and save time2.
-# Method 2: use interrupts. Each pin has its own interrupt routine to save the tick and then disable the interrupt to prevent overwriting the tick.
-# You can disable an interrupt by passing None to it: CH2.irq(None)
-
-# Method 1: While loop. This method has the same average value as PASCO timer, with 0.06ms of variations.
 
 while CH1.value():	# Wait for CH1 to go low
     pass
@@ -44,24 +40,6 @@ time1=ticks_us()	# Get time tick once CH1 goes low
 while CH2.value():	# Wait for CH2 to go low
     pass
 time2=ticks_us()	# Get time tick once CH2 goes low
-
-# Method 2: Using two interrupt service routines. This method consistently reports 0.3ms shorter time periods than PASCO timer.
-# @micropython.native
-# def CH1_h(pin):
-#     global time1
-#     if not time2:
-#         time1=ticks_us()
-#     
-# @micropython.native
-# def CH2_h(pin):
-#     global time2
-#     if not time2:
-#         time2=ticks_us()
-# 
-# CH1.irq(CH1_h, Pin.IRQ_FALLING, hard=True)
-# CH2.irq(CH2_h, Pin.IRQ_FALLING, hard=True)
-# while not time2:	# If time2 reads non-zero, time2 has been obtained. Time to print the result.
-#     sleep(0.1)
 
 t=(time2-time1)/1000000	# Convert us to s
 v0=d/t
