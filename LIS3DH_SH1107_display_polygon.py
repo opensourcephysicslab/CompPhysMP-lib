@@ -61,7 +61,6 @@ points=[(-scale*(x-pt_ctr[0]),-scale*(y-pt_ctr[1])) for x,y in points]	# transla
 # Read-calculate-display loop
 try:
     while(True):
-        display.fill(0) # Effectively this erases the display's existing content
         ax,ay,az=lis.read_g() # ret is a tuple (ax,ay,az).
         tilt=atan2(ax,ay)
         s=sin(tilt)	# Only calculate sin and cos once and reuse the values instead of inline calculations
@@ -73,6 +72,7 @@ try:
             rot_points.append((x,y))
         rot_points.append(rot_points[0])	# Add back the first point to make a closed shape
         last_point=None
+        display.fill(0) # Effectively this erases the display's existing content
         for x,y in rot_points:	# Draw lines between current and previous points to enclose the polygon
             if last_point is not None:	# The first point only goes into the last_point variable so a line can be drawn between the second point and the first.
                 x0,y0=last_point
