@@ -20,7 +20,7 @@ _LSB_per_mss=26.1 # LSB per acceleration in m/s/s
 class ADXL345:
     defaultAddr=0x53 # default 7-bit address (pull SDO/ALT to GND)
     alternateAddr=0x1D # alternate 7-bit address (pull SDO/ALT to VCC)
-    def __init__(self,i2c,addr=defaultAddr):
+    def __init__(self,i2c,useDefaultAddr=True):
         self.i2c=i2c
         self.addr=ADXL345.defaultAddr if useDefaultAddr else ADXL345.alternateAddr
         self.i2c.writeto_mem(self.addr, _POWER_CTL_REG_ADDR, bytearray([_POWER_CTL_MEAS])) # power on and start measurements.

@@ -25,20 +25,21 @@ from machine import I2C, Pin
 from math import atan2
 from time import sleep
 from Driver_LiuDr_LIS3DH import LIS3DH
-#from Driver_LiuDr_ADXL345 import ADXL345
+from Driver_LiuDr_ADXL345 import ADXL345
 
 # Initialize hardware
-i2c=I2C(id=0,sda=Pin(12),scl=Pin(13),freq=400000)
+# i2c=I2C(id=0,sda=Pin(12),scl=Pin(13),freq=400000) # Using STEMMA QT connector on KB2040
+i2c=I2C(id=1,sda=Pin(2),scl=Pin(3),freq=400000) # Using CompPhysMP board or STEMMA QT connector on RP2040
 sleep(0.01)
-sensor=LIS3DH(i2c)
-#sensor=ADXL345(i2c)
+#sensor=LIS3DH(i2c)
+sensor=ADXL345(i2c)
 
 # Read-calculate-display loop
 try:
     while(True):
         ax,ay,az=sensor.read_g() # ret is a tuple (ax,ay,az).
         tilt_deg=atan2(ax,az)*57.3
-        print(f'ax={ax:.2f}g\tay={ay:.2f}g\taz={az:.2f}g\ttilt={-tilt_deg:.1f}deg')
+        print(f'ax={ax:.3f}g\tay={ay:.3f}g\taz={az:.3f}g\ttilt={-tilt_deg:.1f}deg')
         sleep(0.1)
 except KeyboardInterrupt:
     print('Exiting loop...')
