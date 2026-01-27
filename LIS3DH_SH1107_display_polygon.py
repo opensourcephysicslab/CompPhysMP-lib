@@ -25,7 +25,8 @@ Battery pack:			https://www.amazon.com/dp/B01M7Z9Z1N/
 Library list:
 SH1107:					copy sh1107.py to /lib folder
 framebuf2:				copy framebuf2.py to /lib folder
-Driver_LiuDr_LIS3DH:	copy Driver_LiuDr_LIS3DH.py to /lib folder
+Driver_LiuDr_LIS3DH:	copy Driver_LiuDr_LIS3DH.py to /lib folder if using LIS3DH accelerometer
+Driver_LiuDr_ADXL345:	copy Driver_LiuDr_ADXL345.py to /lib folder if using ADXL 343 or ADXL345 accelerometer
 
 Ctrl-C to stop the program and start exploring the accelerometer on your own (fun)!
 Once the code stops, you can manually read the accelerometer with lis.read_g() for (ax,ay,az) in units of g, or lis.read_mss() for (ax,ay,az) in units of m/s/s.
@@ -38,13 +39,16 @@ from machine import I2C, Pin
 from math import sin,cos,tan,atan,atan2
 from time import sleep
 from Driver_LiuDr_LIS3DH import LIS3DH
+from Driver_LiuDr_ADXL345 import ADXL345
 import sh1107
 
 # Initialize hardware
 # i2c=I2C(id=0,sda=Pin(12),scl=Pin(13),freq=400000) # Using STEMMA QT connector on KB2040
 i2c=I2C(id=1,sda=Pin(2),scl=Pin(3),freq=400000) # Using CompPhysMP board or STEMMA QT connector on RP2040
 sleep(0.01)
-lis=LIS3DH(i2c)
+#sensor=LIS3DH(i2c)	# uncomment this line and comment the next line if using LIS3DH accelerometer
+sensor=ADXL345(i2c)	# uncomment this line and comment the previous line if using ADXL343 or ADXL345 accelerometer
+
 display = sh1107.SH1107_I2C(128, 64, i2c, address=60, rotate=0)
 display.poweron()
 # points= ((20,12),(20,-12),(-20,-12),(-20,12))	# These are the vertices of a rectangle
@@ -61,7 +65,7 @@ points=[(-scale*(x-pt_ctr[0]),-scale*(y-pt_ctr[1])) for x,y in points]	# transla
 # Read-calculate-display loop
 try:
     while(True):
-        ax,ay,az=lis.read_g() # ret is a tuple (ax,ay,az).
+        ax,ay,az=sensor.read_g() # ret is a tuple (ax,ay,az).
         tilt=atan2(ax,ay)
         s=sin(tilt)	# Only calculate sin and cos once and reuse the values instead of inline calculations
         c=cos(tilt)
