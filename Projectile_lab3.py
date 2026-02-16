@@ -40,8 +40,8 @@ from machine import Pin, I2C
 from Driver_LiuDr_LIS3DH import LIS3DH
 
 # Initialize hardware
-CH1=Pin(28,Pin.IN)
-CH2=Pin(29,Pin.IN)
+CH1=Pin(6,Pin.IN)	# CH1=Pin(28,Pin.IN)	# PCB version 1.0.1 uses pin 28. PCB version 1.0.2 uses pin 6
+CH2=Pin(7,Pin.IN)	# CH2=Pin(29,Pin.IN)	# PCB version 1.0.1 uses pin 29. PCB version 1.0.2 uses pin 7
 i2c=I2C(id=0,sda=Pin(12),scl=Pin(13),freq=400000)
 sleep(0.01)
 lis=LIS3DH(i2c)

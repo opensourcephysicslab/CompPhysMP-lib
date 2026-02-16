@@ -33,8 +33,8 @@ from machine import Pin
 # Import compphysmp-only modules
 
 # Initialize hardware
-CH1=Pin(28,Pin.IN)
-CH2=Pin(29,Pin.IN)
+CH1=Pin(6,Pin.IN)	# CH1=Pin(28,Pin.IN)	# PCB version 1.0.1 uses pin 28. PCB version 1.0.2 uses pin 6
+CH2=Pin(7,Pin.IN)	# CH2=Pin(29,Pin.IN)	# PCB version 1.0.1 uses pin 29. PCB version 1.0.2 uses pin 7
 
 print("Launch when ready...")
 
