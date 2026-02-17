@@ -1,0 +1,8 @@
+Cut:
+between 7I and 7J
+above 52J and 53J both top trace and bottom trace to last 3V hole
+
+Solder:
+7J-10B
+3V hole at 53 - 54B
+CH2 mid - 36J
