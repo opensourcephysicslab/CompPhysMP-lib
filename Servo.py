@@ -1,6 +1,5 @@
 # Define constants
 freq_LED=50	# Hz
-duty_u16=5433	# duty has the range of 0-65535 so 1024/65536=1.56%
 duty_0deg=2150
 duty_90deg=5433
 def angle_to_duty(angle_deg):
@@ -11,4 +10,4 @@ from machine import PWM
 pin_LED=0 
 # Initialize hardware
 pwm=PWM(pin_LED,freq=freq_LED)
-pwm.duty_u16(duty_u16) # Turn on LED with a 1.56% duty cycle
+pwm.duty_u16(angle_to_duty(90)) # Set the servo to point the laser straight down to avoid hitting the table.
