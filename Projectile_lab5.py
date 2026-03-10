@@ -28,7 +28,7 @@
 g=9.8	# m/s/s
 d=0.1	# m Distance between photogates
 h=1.17  # m Launch height
-v0=4.3  # m/s Launch speed from previous measurements
+v0=4.67  # m/s Launch speed from previous measurements
 freq_servo=50	# Hz
 duty_0deg=2150
 duty_90deg=5433
@@ -37,6 +37,12 @@ angle_slope=1.07		# From raw angle to calibrated angle, linear fit radians
 angle_intercept=0.0207	# From raw angle to calibrated angle, linear fit radians
 x=[0.019,0.267,0.511,0.747,0.993,1.232,1.494]	# From raw angle to calibrated angle in radians
 y=[0.000,0.262,0.524,0.785,1.047,1.309,1.571]	# From raw angle to calibrated angle in radians
+RED =     (0x3f,0,0)
+YELLOW =  (0x3f,0x3f,0)
+GREEN =   (0,0x3f,0)
+BLUE =    (0,0,0x3f)
+BLACK =   (0,0,0)
+
 # Initialize variables
 time1=0
 time2=0
