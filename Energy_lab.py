@@ -35,4 +35,4 @@ while CH1.value():	# Wait until value=LOW for a second time
     pass
 t2=ticks_us()
 
-print(f"t1(us)={t1}\t t2(us)={t2}\t v(m/s)={(t2-t1)/1e6/d}")
+print(f"t1(us)={t1}\t t2(us)={t2}\t v(m/s)={d/((t2-t1)/1e6)}")
